@@ -1,0 +1,20 @@
+.idea/
+*.iml
+
+# Maven/Java
+**/target/
+*.log
+
+# Node/Next
+**/node_modules/
+**/.next/
+**/out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env/secrets
+.env
+.env.*
+!.env.example

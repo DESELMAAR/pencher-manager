@@ -1,0 +1,18 @@
+# Docker Compose file: defines and runs PostgreSQL in a container.
+# Run from project root:  docker-compose up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: pencher-postgres
+    environment:
+      POSTGRES_DB: pencherdb
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

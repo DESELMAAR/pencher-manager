@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "Pencher Manager API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{"key": "token", "value": "{{accessToken}}", "type": "string"}]
+  },
+  "variable": [
+    {"key": "accessToken", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                "const json = pm.response.json();",
+                "if (json.accessToken) { pm.environment.set('accessToken', json.accessToken); }"
+              ]
+            }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{superAdminEmail}}\",\n  \"password\": \"{{superAdminPassword}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Test User\",\n  \"email\": \"test@test.com\",\n  \"password\": \"Test123!\",\n  \"role\": \"EMPLOYEE\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/register"
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/auth/me"
+          }
+        },
+        {
+          "name": "Refresh",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"refreshToken\": \"\"\n}"},
+            "url": "{{baseUrl}}/api/auth/refresh"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Departments",
+      "item": [
+        {"name": "List", "request": {"method": "GET", "url": "{{baseUrl}}/api/departments"}},
+        {"name": "Create", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\": \"Engineering\", \"description\": \"Dev team\"}"}, "url": "{{baseUrl}}/api/departments"}},
+        {"name": "Get by ID", "request": {"method": "GET", "url": "{{baseUrl}}/api/departments/1"}},
+        {"name": "Get department teams", "request": {"method": "GET", "url": "{{baseUrl}}/api/departments/1/teams"}}
+      ]
+    },
+    {
+      "name": "Teams",
+      "item": [
+        {"name": "List", "request": {"method": "GET", "url": "{{baseUrl}}/api/teams"}},
+        {"name": "Create", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"departmentId\": 1, \"name\": \"Backend\", \"description\": \"Backend team\"}"}, "url": "{{baseUrl}}/api/teams"}},
+        {"name": "Get team employees", "request": {"method": "GET", "url": "{{baseUrl}}/api/teams/1/employees"}}
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {"name": "List", "request": {"method": "GET", "url": "{{baseUrl}}/api/users"}},
+        {"name": "Get by ID", "request": {"method": "GET", "url": "{{baseUrl}}/api/users/1"}}
+      ]
+    },
+    {
+      "name": "Punches",
+      "item": [
+        {"name": "Start Work", "request": {"method": "POST", "url": "{{baseUrl}}/api/punches/start-work"}},
+        {"name": "My punches today", "request": {"method": "GET", "url": "{{baseUrl}}/api/punches/me/today"}},
+        {"name": "My history", "request": {"method": "GET", "url": "{{baseUrl}}/api/punches/me/history?page=0&size=20"}}
+      ]
+    },
+    {
+      "name": "Attendance",
+      "item": [
+        {"name": "My today", "request": {"method": "GET", "url": "{{baseUrl}}/api/attendance/me/today"}},
+        {"name": "Summary", "request": {"method": "GET", "url": "{{baseUrl}}/api/attendance/summary?from=2025-01-01&to=2025-12-31"}}
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {"name": "Super Admin", "request": {"method": "GET", "url": "{{baseUrl}}/api/dashboard/super-admin"}},
+        {"name": "Employee", "request": {"method": "GET", "url": "{{baseUrl}}/api/dashboard/employee"}}
+      ]
+    }
+  ]
+}

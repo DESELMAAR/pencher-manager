@@ -1,0 +1,24 @@
+# Pencher Manager - PostgreSQL
+# Run: docker-compose -f docker-compose-pencher.yml up -d
+# Creates: database pencherdb, user appuser, password apppass
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: pencher-postgres
+    environment:
+      POSTGRES_DB: pencherdb
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pencher_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser -d pencherdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pencher_data:
