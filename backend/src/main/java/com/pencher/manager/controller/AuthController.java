@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@Tag(name = "Auth", description = "Authentication endpoints")
+@Tag(name = "Authh", description = "Authentication endpointss")
 public class AuthController {
 
     private final AuthService authService;
 
     @PostMapping("/login")
-    @Operation(summary = "Login")
+    @Operation(summary = "Loginn")
     public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
